@@ -1,11 +1,14 @@
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import javax.swing.JFileChooser;
 
-public class HanoiTowers {
+public class HanoiTowers extends javax.swing.JFrame {
 
     private int[] towers;
     private int disks;
@@ -13,10 +16,13 @@ public class HanoiTowers {
     private static final int TOWER_1 = 0;
     private static final int TOWER_2 = 1;
     private static final int TOWER_3 = 2;
-    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static BufferedReader br;
     private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     private static int ammountInt;
     private static int[] integerHanoi;
+
+    public HanoiTowers() {
+    }
 
     public HanoiTowers(int n) {
         towers = new int[TOWER_AMOUNT];
@@ -42,7 +48,11 @@ public class HanoiTowers {
         }
     }
 
-    public static void readFile() throws IOException {
+    public void readFile() throws IOException {
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(this);
+        File file = chooser.getSelectedFile();
+        br = new BufferedReader(new FileReader(file));
         ammountInt = Integer.parseInt(br.readLine());
         integerHanoi = new int[ammountInt];
         for (int i = 0; i < ammountInt; i++) {
@@ -51,12 +61,12 @@ public class HanoiTowers {
     }
 
     public static void main(String[] args) throws IOException {
-        readFile();
-        HanoiTowers hn;
+        HanoiTowers hn = new HanoiTowers();
+        hn.readFile();
         for (int i = 0; i < ammountInt; i++) {
             hn = new HanoiTowers(integerHanoi[i]);
             hn.hanoi();
-            if (i != ammountInt-1) {
+            if (i != ammountInt - 1) {
                 bw.write("\n");
             }
         }
