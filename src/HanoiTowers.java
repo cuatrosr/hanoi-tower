@@ -3,8 +3,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import javax.swing.JFileChooser;
 
@@ -17,9 +17,10 @@ public class HanoiTowers extends javax.swing.JFrame {
     private static final int TOWER_2 = 1;
     private static final int TOWER_3 = 2;
     private static BufferedReader br;
-    private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    private static BufferedWriter bw;
     private static int ammountInt;
     private static int[] integerHanoi;
+    private static String msg = "";
 
     public HanoiTowers() {
     }
@@ -34,7 +35,7 @@ public class HanoiTowers extends javax.swing.JFrame {
 
     //First call
     public void hanoi() throws IOException {
-        bw.write(towers[TOWER_1] + " " + towers[TOWER_2] + " " + towers[TOWER_3] + "\n");
+        msg += towers[TOWER_1] + " " + towers[TOWER_2] + " " + towers[TOWER_3] + "\n";
         hanoi(disks, TOWER_1, TOWER_3, TOWER_2);
     }
 
@@ -43,7 +44,7 @@ public class HanoiTowers extends javax.swing.JFrame {
             hanoi(k - 1, origin, aux, target);
             towers[origin]--;
             towers[target]++;
-            bw.write(towers[TOWER_1] + " " + towers[TOWER_2] + " " + towers[TOWER_3] + "\n");
+            msg += towers[TOWER_1] + " " + towers[TOWER_2] + " " + towers[TOWER_3] + "\n";
             hanoi(k - 1, aux, target, origin);
         }
     }
@@ -67,10 +68,21 @@ public class HanoiTowers extends javax.swing.JFrame {
             hn = new HanoiTowers(integerHanoi[i]);
             hn.hanoi();
             if (i != ammountInt - 1) {
-                bw.write("\n");
+                msg += "\n";
             }
         }
+        hn.saveFile();
         br.close();
         bw.close();
+        System.out.println("paso?");
+        System.exit(0);
+    }
+
+    public void saveFile() throws IOException {
+        JFileChooser chooser = new JFileChooser();
+        chooser.showSaveDialog(this);
+        File file = chooser.getSelectedFile();
+        bw = new BufferedWriter(new FileWriter(file));
+        bw.write(msg);
     }
 }
