@@ -74,7 +74,6 @@ public class HanoiTowers extends javax.swing.JFrame {
         hn.saveFile();
         br.close();
         bw.close();
-        System.out.println("paso?");
         System.exit(0);
     }
 
